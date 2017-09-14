@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "NTUST credit counter ",
+  "version": "0.3",
+  "browser_action": {
+    "default_icon": "images/icon32.png",
+    "default_title": "Click here!"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "description": "幫助台科學生統計畢業學分狀況",
+  "icons": {
+    "16":"images/icon16.png",
+    "24":"images/icon24.png",
+    "32":"images/icon32.png",
+    "64":"images/icon64.png",
+    "128":"images/icon128.png",
+    "256":"images/icon256.png",
+    "512":"images/icon512.png"
+  },
+  "background":{
+    "scripts": ["background.js"]
+  }
+  
+  // ,
+  // "content_scripts": [
+  //   {
+  //     "matches": [
+  //       "https://stu255.ntust.edu.tw/ntust_stu/Query_Score.aspx"
+  //     ],
+  //      "css":["bootstrap/css/bootstrap.min.css","bootstrap/css/bootstrap-theme.min.css"]
+  //     "js": ["jquery/jquery-2.1.4.js","bootstrap/js/bootstrap.min.js","content.js"],
+  //     
+  //   }
+  // ]
+}
