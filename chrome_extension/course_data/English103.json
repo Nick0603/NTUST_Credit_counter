@@ -1,33 +1,40 @@
-course.push({
+courses.English =  {
     "name":"英文",
-    "course":{
-        "校定英文能力會考":{
+    "course":[
+        {
+            "name":"校定英文能力會考",
             "semester":0,
             "credit":0
         },
-        "英文字彙與閱讀(一)":{
+        {
+            "name":"英文字彙與閱讀(一)",
             "semester":1,
             "credit":0
         },
-        "英語口語訓練(一)":{
+        {
+            "name":"英語口語訓練(一)",
             "semester":1,
             "credit":0
         },
-        "英文字彙與閱讀(二)":{
+        {
+            "name":"英文字彙與閱讀(二)",
             "semester":2,
             "credit":0
         },
-        "英語口語訓練(二)":{
+        {
+            "name":"英語口語訓練(二)",
             "semester":2,
             "credit":0
         },
-        "英文高階英文":{
+        {
+            "name":"英文高階英文",
             "semester":0,
             "credit":2
         },
-        "英文高階英文":{
+        {
+            "name":"英文高階英文",
             "semester":0,
             "credit":2
         }
-    }
-});
+    ]
+}

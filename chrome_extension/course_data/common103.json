@@ -1,17 +1,20 @@
-course.push({
+courses.common103 = {
     "name":"103通識及其他科目",
-    "course":{
-        "文學領域":{
+    "course":[
+        {
+           "name": "文學領域",
             "semester":1,
             "credit":3
         },
-        "體育":{
+        {
+            "name": "體育",
             "semester":0,
             "credit":6
         },
-        "通識":{
+        {
+            "name": "通識",
             "semester":0,
             "credit":16
         }
-    }
-});
+    ]
+};

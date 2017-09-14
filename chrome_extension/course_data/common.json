@@ -1,41 +1,50 @@
-course.push({
+courses.common = {
     "name":"通識及其他科目",
-    "course":{
-        "文學領域":{
+    "course":[
+        {
+            "name":"文學領域",
             "semester":1,
             "credit":3
         },
-        "體育":{
+        {
+            "name":"體育",
             "semester":0,
             "credit":6
         },
-        "通識(A)人文素養":{
+        {
+            "name":"通識(A)人文素養",
             "semester":0,
             "credit":2
         },
-        "通識(B)當代文明":{
+        {
+            "name":"通識(B)當代文明",
             "semester":0,
             "credit":2
         },
-        "通識(C)美感與人生探索":{
+        {
+            "name":"通識(C)美感與人生探索",
             "semester":0,
             "credit":2
         },
-        "通識(D)社會與歷史文化":{
+        {
+            "name":"通識(D)社會與歷史文化",
             "semester":0,
             "credit":2
         },
-        "通識(E)群己與制度發展":{
+        {
+            "name":"通識(E)群己與制度發展",
             "semester":0,
             "credit":2
         },
-        "通識(F)自然與生命科學":{
+        {
+            "name":"通識(F)自然與生命科學",
             "semester":0,
             "credit":2
         },
-        "通識(G)自主學習":{
+        {
+            "name":"通識(G)自主學習",
             "semester":0,
             "credit":2
         }
-    }
-});
+    ]
+}

@@ -1,147 +1,180 @@
-course.push({
+courses.ME103 =  {
     "name":"機械系103年度入學",
     "course":{
-        "FirstYear":{
-            "初階數學(一)":{
+        "FirstYear":[
+            {
+                "name": "初階數學(一)",
                 "semester":0,
                 "credit":0
             },
-            "微積分（一）":{
+            {
+                "name":"微積分（一）",
                 "semester":0,
                 "credit":4
             },
-            "物理":{
+            {
+                "name":"物理",
                 "semester":1,
                 "credit":3
             },
-            "機械工程與工程倫理":{
+            {
+                "name":"機械工程與工程倫理",
                 "semester":1,
                 "credit":1
             },
-            "化學":{
+            {
+                "name":"化學",
                 "semester":1,
                 "credit":2
             },
-            "物理實習":{
+            {
+                "name":"物理實習",
                 "semester":1,
                 "credit":1
             },
-            "化學實習":{
+            {
+                "name":"化學實習",
                 "semester":1,
                 "credit":1
             },
-            "微積分（二）":{
+            {
+                "name":"微積分（二）",
                 "semester":2,
                 "credit":4
             },
-            "物理":{
+            {
+                "name":"物理",
                 "semester":2,
                 "credit":3
             },
-            "物理實習":{
+            {
+                "name":"物理實習",
                 "semester":2,
                 "credit":1
             },
-            "程式語言":{
+            {
+                "name":"程式語言",
                 "semester":2,
                 "credit":3
             },
-            "靜力學":{
+            {
+                "name":"靜力學",
                 "semester":2,
                 "credit":3
             }
-        },
-        "SecondYear":{
-            "機械實習(一)-材料與製造領域":{
+        ],
+        "SecondYear":[
+            {
+                "name":"機械實習(一)-材料與製造領域",
                 "semester":0,
                 "credit":1
             },
-            "熱力學":{
+            {
+                "name":"熱力學",
                 "semester":1,
                 "credit":3
             },
-            "工程數學(一)":{
+            {
+                "name":"工程數學(一)",
                 "semester":1,
                 "credit":3
             },
-            "動力學":{
+            {
+                "name":"動力學",
                 "semester":1,
                 "credit":3
             },
-            "工程材料(一)":{
+            {
+                "name":"工程材料(一)",
                 "semester":1,
                 "credit":3
             },
-            "材料力學":{
+            {
+                "name":"材料力學",
                 "semester":2,
                 "credit":1
             },
-            "熱力學":{
+            {
+                "name":"熱力學",
                 "semester":2,
                 "credit":3
             },
-            "工程數學(二)":{
+            {
+                "name":"工程數學(二)",
                 "semester":2,
                 "credit":3
             },
-            "應用電子學":{
+            {
+                "name":"應用電子學",
                 "semester":2,
                 "credit":3
             },
-            "機動學":{
+            {
+                "name":"機動學",
                 "semester":2,
                 "credit":3
             }
-        },
-        "ThirdYear":{
-            "機械設計":{
+        ],
+        "ThirdYear":[
+            {
+                "name":"機械設計",
                 "semester":1,
                 "credit":1
             },
-            "製造學":{
+            {
+                "name":"製造學",
                 "semester":1,
                 "credit":3
             },
-            "機械實習(二)-電子與自控領域":{
+            {
+                "name":"機械實習(二)-電子與自控領域",
                 "semester":0,
                 "credit":1
             },
-            "自動控制(一)":{
+            {
+                "name":"自動控制(一)",
                 "semester":1,
                 "credit":3
             },
-            "流體力學":{
+            {
+                "name":"流體力學",
                 "semester":1,
                 "credit":3
             },
-            "機械系統設計與實務":{
+            {
+                "name":"機械系統設計與實務",
                 "semester":2,
                 "credit":4
             },
-            "熱傳學":{
+           {
+                "name": "熱傳學",
                 "semester":2,
                 "credit":3
             },
-            "機械實習(三)-熱流領域":{
+            {
+                "name":"機械實習(三)-熱流領域",
                 "semester":0,
                 "credit":1
             }
-        },
-        "optional":{
-            "實習課程":{
+        ],
+        "optional":[
+            {
+                "name":"實習課程",
                 "semester":0,
                 "credit":1
             },
-            "實習課程":{
+            {
+                "name":"實習課程",
                 "semester":0,
                 "credit":1
             },
-            "選修課程":{
+            {
+                "name":"選修課程",
                 "semester":0,
                 "credit":22
             }
-        }
+        ]
     }
-});
+}
 
 

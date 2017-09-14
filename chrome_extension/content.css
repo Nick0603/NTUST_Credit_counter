@@ -1,0 +1,16 @@
+.row ,table{
+    text-align: center;
+}
+
+.container{
+    width:auto;
+    border: 5px solid #333;
+    font-family: "微軟正黑體";
+}
+.row h3{
+    font-size:3em;
+}
+table{
+    border: 3px solid #444;
+    font-size:2em;
+}
