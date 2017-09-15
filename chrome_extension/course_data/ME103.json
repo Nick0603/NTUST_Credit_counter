@@ -168,6 +168,13 @@ courses.major =  {
                 "semester":0,
                 "credit":22
             }
+        ],
+        "other":[
+            {
+                "name":"自由選修課程",
+                "semester":0,
+                "credit":5
+            }
         ]
     }
 }
