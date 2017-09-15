@@ -14,7 +14,32 @@ courses.common = {
         {
             "name": "體育",
             "semester":0,
-            "credit":6
+            "credit":0
+        },
+        {
+            "name": "體育",
+            "semester":0,
+            "credit":0
+        },
+        {
+            "name": "體育",
+            "semester":0,
+            "credit":0
+        },
+        {
+            "name": "體育",
+            "semester":0,
+            "credit":0
+        },
+        {
+            "name": "體育",
+            "semester":0,
+            "credit":0
+        },
+        {
+            "name": "體育",
+            "semester":0,
+            "credit":0
         },
         {
             "name": "通識",

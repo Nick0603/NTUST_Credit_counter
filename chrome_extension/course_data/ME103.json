@@ -95,11 +95,6 @@ courses.major =  {
                 "credit":1
             },
             {
-                "name":"熱力學",
-                "semester":2,
-                "credit":3
-            },
-            {
                 "name":"工程數學(二)",
                 "semester":2,
                 "credit":3

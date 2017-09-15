@@ -9,7 +9,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.executeScript(null, {file: "course_data/common103.json"});
     chrome.tabs.executeScript(null, {file: "course_data/ME103.json"});
 
-
+    chrome.tabs.executeScript(null, {file: "changeView.js"});
+    chrome.tabs.insertCSS(null, {file: "content.css"});
     chrome.tabs.executeScript(null, {file: "content.js"});
 });
 

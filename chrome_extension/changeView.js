@@ -86,7 +86,7 @@ var view = {
                         .append(
                             $("<td></td>")
                                 .addClass( course.name )
-                                .text("尚未確認")
+                                .text( course.status )
                         )
                 )
         }
