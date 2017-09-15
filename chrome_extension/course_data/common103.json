@@ -1,4 +1,4 @@
-courses.common103 = {
+courses.common = {
     "name":"103通識及其他科目",
     "course":[
         {
@@ -6,6 +6,11 @@ courses.common103 = {
             "semester":1,
             "credit":3
         },
+        {
+            "name": "文學領域",
+             "semester":2,
+             "credit":3
+         },
         {
             "name": "體育",
             "semester":0,

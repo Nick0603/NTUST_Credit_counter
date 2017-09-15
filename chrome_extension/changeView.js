@@ -19,7 +19,7 @@ function createTable(className){
 
 var view = {
     removePageContent:function(){
-        $("body").remove();
+        $("body").html("");
     },
     addPageContent:function(){
         $("body").append(
@@ -93,11 +93,11 @@ var view = {
     },
     updateGraduationCredit:function(){
         view.updateCourseInfo( courses.English.course , "english-table-body");
-        view.updateCourseInfo( courses.common103.course , "common-table-body");
-        view.updateCourseInfo( courses.ME103.course.FirstYear , "obligatory1-table-body");
-        view.updateCourseInfo( courses.ME103.course.SecondYear , "obligatory1-table-body");
-        view.updateCourseInfo( courses.ME103.course.ThirdYear , "obligatory2-table-body");
-        view.updateCourseInfo( courses.ME103.course.optional , "optional-table-body");
+        view.updateCourseInfo( courses.common.course , "common-table-body");
+        view.updateCourseInfo( courses.major.course.FirstYear , "obligatory1-table-body");
+        view.updateCourseInfo( courses.major.course.SecondYear , "obligatory1-table-body");
+        view.updateCourseInfo( courses.major.course.ThirdYear , "obligatory2-table-body");
+        view.updateCourseInfo( courses.major.course.optional , "optional-table-body");
     }
 }
 

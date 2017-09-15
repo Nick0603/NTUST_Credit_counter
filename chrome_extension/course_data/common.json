@@ -7,6 +7,11 @@ courses.common = {
             "credit":3
         },
         {
+            "name":"文學領域",
+            "semester":1,
+            "credit":3
+        },
+        {
             "name":"體育",
             "semester":0,
             "credit":6
