@@ -1,14 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "NTUST credit counter ",
-  "version": "0.3",
+  "name": "NTUST credit counter",
+  "version": "0.4",
   "browser_action": {
     "default_icon": "images/icon32.png",
     "default_title": "Click here!"
   },
   "permissions": [
-    "activeTab",
-    "tabs"
+    "activeTab"
   ],
   "description": "幫助台科學生統計畢業學分狀況",
   "icons": {

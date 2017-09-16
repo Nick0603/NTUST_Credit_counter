@@ -1,5 +1,6 @@
 courses.major =  {
     "name":"機械系103年度入學",
+    "code":"ME",
     "course":{
         "FirstYear":[
             {
@@ -55,7 +56,9 @@ courses.major =  {
             {
                 "name":"程式語言",
                 "semester":2,
-                "credit":3
+                "credit":3,
+                "isSpecialCheck":true,
+                "checkWord":"程式"
             },
             {
                 "name":"靜力學",
@@ -156,24 +159,30 @@ courses.major =  {
             {
                 "name":"實習課程",
                 "semester":0,
-                "credit":1
+                "credit":1,
+                "isSpecialCheck":true,
+                "checkWord":"實習"
             },
             {
                 "name":"實習課程",
                 "semester":0,
-                "credit":1
+                "credit":1,
+                "isSpecialCheck":true,
+                "checkWord":"實習"
             },
             {
                 "name":"選修課程",
                 "semester":0,
-                "credit":22
+                "credit":22,
+                "isSpecialCheck":true
             }
         ],
         "other":[
             {
                 "name":"自由選修課程",
                 "semester":0,
-                "credit":5
+                "credit":5,
+                "isSpecialCheck":true
             }
         ]
     }
