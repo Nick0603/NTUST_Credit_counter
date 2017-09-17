@@ -39,25 +39,26 @@ courses.English =  {
             "credit":2,
             "isSpecialCheck":true,
             "checkCode":"FE"
-        },
-        {
-            "name":"高階英文(會考超過550分)",
-            "semester":0,
-            "credit":2,
-            "isSpecialCheck":true,
-            "checkCode":"FE"
-        },
-        {
-            "name":"高階英文(會考超過550分)",
-            "semester":0,
-            "credit":2,
-            "isSpecialCheck":true,
-            "checkCode":"FE"
-        },
-        {
-            "name":"英文實務",
-            "semester":0,
-            "credit":1
         }
+        // ,
+        // {
+        //     "name":"英文實務",
+        //     "semester":0,
+        //     "credit":2
+        // },
+        // {
+        //     "name":"高階英文(會考超過550分)",
+        //     "semester":0,
+        //     "credit":2,
+        //     "isSpecialCheck":true,
+        //     "checkCode":"FE"
+        // },
+        // {
+        //     "name":"高階英文(會考超過550分)",
+        //     "semester":0,
+        //     "credit":2,
+        //     "isSpecialCheck":true,
+        //     "checkCode":"FE"
+        // }
     ]
 }

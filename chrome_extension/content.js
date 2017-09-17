@@ -14,7 +14,6 @@ function ObjectIndexOf(obj,objArray,checkKeys,startIndex,isNeedSame){
         var successCheckCounter = 0;
         
         checkKeys.forEach(function(key){
-
             if( typeof(obj[key]) == "string" &&　!isNeedSame ){
                 if(checkObj[key].indexOf(obj[key]) != -1 ){
                     successCheckCounter++;
@@ -57,6 +56,60 @@ var courseCounter = {
             })
         });
         return mergeCourse;
+    },
+    updateByEnglishEntranceExam:function(
+        graduatedEnglishCourses,
+        learnedEnglishCourses
+    ){
+        for(let i=0 ; i<learnedEnglishCourses.length;i++){
+            var course = learnedEnglishCourses[i];
+            if(course.name == "英文字彙與閱讀(一)"){
+                if(course.grade == "免修"){
+                    learnedEnglishCourses.push(
+                        {
+                            name:"校定英文能力會考",
+                            grade:"通過",
+                            code:""
+                        }
+                    );
+                    graduatedEnglishCourses.push(
+                        {
+                            name:"高階英文(會考通過)",
+                            semester:0,
+                            credit:2,
+                            isSpecialCheck:true,
+                            checkCode:"FE"
+                        }
+                    );
+                    graduatedEnglishCourses.push(
+                        {
+                            name:"高階英文(會考通過)",
+                            semester:0,
+                            credit:2,
+                            isSpecialCheck:true,
+                            checkCode:"FE"
+                        }
+                    );
+                }else{
+                    learnedEnglishCourses.push(
+                        {
+                            name:"校定英文能力會考",
+                            grade:"未通過",
+                            code:""
+                        }
+                    );
+                    graduatedEnglishCourses.splice(1,0,
+                        {
+                            name:"英文實務(會考未通過)",
+                            semester:0,
+                            credit:2,
+                            isSpecialCheck:true,
+                            checkWord:"英文實務"
+                        }
+                    );
+                }
+            }
+        }
     },
     getCoursePassStatus:function(courses){
         // 可能有重修，需多重判斷多個重複課程
@@ -217,6 +270,7 @@ var courseCounter = {
             }
         }
 
+
         // find obligatoryCourses
         var obligatoryCourses = [];
         graduatedObligatoryCourses = courseCounter.obligatoryCourses;
@@ -278,11 +332,17 @@ var courseCounter = {
         }
     },
     checkGraduationCredit:function(){
-       
+
+        // 判斷英文門檻
+        courseCounter.updateByEnglishEntranceExam(
+            courseCounter.EnglishCourses,
+            courseCounter.classifiedCourses.EnglishCourses,
+        );
+          
         var checkCoursesArray = [
             // check English
             [   
-                courses.English.course ,
+                courseCounter.EnglishCourses ,
                 courseCounter.classifiedCourses.EnglishCourses ,
                 courseCounter.classifiedCourses.otherCourses
             ],
@@ -302,7 +362,6 @@ var courseCounter = {
         ]
         checkCoursesArray.forEach(function(checkCourses){
             (function checkCourse(graduationCourses,learnedCourses,overToCourses){
-                
                 for(let i=0 ;i<graduationCourses.length;i++){
                     var course = graduationCourses[i];
                     if( course.isSpecialCheck == undefined){
@@ -400,7 +459,9 @@ var courseCounter = {
 }
 
 
+
 courseCounter.majorCode = courses.major.code;
+courseCounter.EnglishCourses = courses.English.course;
 courseCounter.obligatoryCourses = courseCounter.mergeObligatoryCourse(courses.major.course);
 courseCounter.optionalCourses = courses.major.course.optional;
 courseCounter.otherCourses = courses.major.course.other;
