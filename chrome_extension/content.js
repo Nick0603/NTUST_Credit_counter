@@ -273,7 +273,7 @@ var courseCounter = {
         }
 
 
-        // find obligatoryCourses
+        // find obligatoryCourses  &&  optionalCourses    putIn obligatoryCourses first
         var obligatoryCourses = [];
         graduatedObligatoryCourses = courseCounter.obligatoryCourses;
         for(let i=0; i<graduatedObligatoryCourses.length ; i++){
@@ -309,14 +309,12 @@ var courseCounter = {
             }
         }
 
-        // find optionalCourses
-        var optionalCourses = [];
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
             if(course.code.indexOf( courseCounter.majorCode ) != -1){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
-                optionalCourses.push( courseCopy );
+                obligatoryCourses.push( courseCopy );
                 coursesCopy.splice(i,1);
             }
         }
@@ -329,7 +327,7 @@ var courseCounter = {
             "literatureCourses":literatureCourses,
             "EnglishCourses":EnglishCourses,
             "obligatoryCourses":obligatoryCourses,
-            "optionalCourses":optionalCourses,
+            "optionalCourses":[],
             "otherCourses":otherCourses
         }
     },
