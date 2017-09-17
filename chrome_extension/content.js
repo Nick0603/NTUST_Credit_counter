@@ -169,7 +169,10 @@ var courseCounter = {
         var commonCourses = [];
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
-            if(course.category != null){
+            if(course.category != null ||
+                course.code[2] == "G" ||
+                course.code.indexOf("SA") != -1
+            ){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
                 commonCourses.push( courseCopy );
