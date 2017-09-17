@@ -140,7 +140,9 @@ var courseCounter = {
         for(let i=0;i<courses.length;i++){
             var course = courses[i];
             var grade = course.grade;
-            if(creditCounter >= targetCredit)break;
+            if(creditCounter >= targetCredit){
+                return creditCounter;
+            }
             if(course.isCounted){
                 continue;
             }else{
@@ -429,12 +431,15 @@ var courseCounter = {
         }
         (function(coursesArray){
             coursesArray.forEach(function(courses){
+                console.log("------------");
                 for(let i=courses.length-1 ; i>=0 ; i--){
                     var course = courses[i];
+                    console.log(course.name);
+                    console.log(course.isCounted);
                     if( !course.isCounted ){
                         var courseCopy = {};
                         $.extend(courseCopy,course);
-                        coursesArray.splice(i,1);
+                        courses.splice(i,1);
                         courseCounter.classifiedCourses.otherCourses.push( courseCopy );
                     }
                 }
