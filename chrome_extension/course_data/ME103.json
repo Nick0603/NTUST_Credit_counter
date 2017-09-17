@@ -153,23 +153,23 @@ courses.major =  {
                 "name":"機械實習(三)-熱流領域",
                 "semester":0,
                 "credit":1
+            },
+            {
+                "name":"實習課程",
+                "semester":0,
+                "credit":1,
+                "isSpecialCheck":true,
+                "checkWord":"實習"
+            },
+            {
+                "name":"實習課程",
+                "semester":0,
+                "credit":1,
+                "isSpecialCheck":true,
+                "checkWord":"實習"
             }
         ],
         "optional":[
-            {
-                "name":"實習課程",
-                "semester":0,
-                "credit":1,
-                "isSpecialCheck":true,
-                "checkWord":"實習"
-            },
-            {
-                "name":"實習課程",
-                "semester":0,
-                "credit":1,
-                "isSpecialCheck":true,
-                "checkWord":"實習"
-            },
             {
                 "name":"選修課程",
                 "semester":0,
