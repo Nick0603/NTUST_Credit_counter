@@ -465,9 +465,10 @@ courseCounter.learnedCourses = courseCounter.parserCourses();
 courseCounter.classifiedCourses = courseCounter.classifyParserCourse( courseCounter.learnedCourses );
 courseCounter.checkGraduationCredit();
 
-view.addPageContent();
+view.addShortagedCouresPages();
+view.addGraduatedCouresPages();
 view.updateGraduationCredit();
-view.addCleanPageContent();
-view.updateCleanPagContente();
+view.addLearnedCouresPages();
+view.updateLearnedCoures();
 
 

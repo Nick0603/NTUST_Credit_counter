@@ -21,13 +21,30 @@ var view = {
     removePageContent:function(){
         $("body").html("");
     },
-    addPageContent:function(){
+    addShortagedCouresPages:function(){
         $("body").append(
             $("<div></div>")
                 .addClass("container")
                 .append( 
                     createDiv("row")
-                        .append("<h2>畢業學分比較圖</h2>")
+                        .append("<h2>缺少學分表</h2>")
+                )
+                .append(
+                    createDiv("row")
+                        .append( 
+                            createDiv("col-md-12 Shortaged" )
+                                .append( createTable("Shortaged-table-body" ))
+                        )
+                )
+        )
+    },
+    addGraduatedCouresPages:function(){
+        $("body").append(
+            $("<div></div>")
+                .addClass("container")
+                .append( 
+                    createDiv("row")
+                        .append("<h2>畢業學分比較表</h2>")
                 )
                 .append( 
                     createDiv("row")
@@ -75,13 +92,13 @@ var view = {
                 )
         )
     },
-    addCleanPageContent:function(){
+    addLearnedCouresPages:function(){
         $("body").append(
             $("<div></div>")
                 .addClass("container")
                 .append( 
                     createDiv("row")
-                        .append("<h2>學分分類圖</h2>")
+                        .append("<h2>學分分類表</h2>")
                 )
                 .append(
                     createDiv("row")
@@ -127,27 +144,31 @@ var view = {
                 )
         )
     },
-    updateCourseInfo:function( appointCourses , tableBodyClassName){
+    updateGraduatedCourseInfo:function( appointCourses , tableBodyClassName){
         for(var i=0 ; i<appointCourses.length ; i++){
             var course = appointCourses[i];
-            $("." + tableBodyClassName)
-                .append(
-                    $("<tr></tr>")
-                        .append(
-                            $("<td></td>").text( course.name )
-                        )
-                        .append(
-                            $("<td></td>").text( course.credit)
-                        )
-                        .append(
-                            $("<td></td>")
-                                .addClass( course.name )
-                                .text( course.status )
-                        )
-                )
+            var newData = 
+                $("<tr></tr>")
+                    .append(
+                        $("<td></td>").text( course.name )
+                    )
+                    .append(
+                        $("<td></td>").text( course.credit)
+                    )
+                    .append(
+                        $("<td></td>")
+                            .addClass( course.name )
+                            .text( course.status )
+                    )
+            if(course.status.indexOf("未通過") != -1 || course.status == "尚未修課"){
+                $(".Shortaged-table-body").append(newData.clone());
+                newData.addClass("danger");
+            }
+            $("." + tableBodyClassName).append(newData)
+            
         }
     },
-    updateCleanCourseInfo:function( appointCourses , tableBodyClassName){
+    updateLearnedCourseInfo:function( appointCourses , tableBodyClassName){
         for(var i=0 ; i<appointCourses.length ; i++){
             var course = appointCourses[i];
             $("." + tableBodyClassName)
@@ -168,30 +189,30 @@ var view = {
         }
     },
     updateGraduationCredit:function(){
-        view.updateCourseInfo( courses.English.course , "english-table-body");
-        view.updateCourseInfo( courses.common.course , "common-table-body");
-        view.updateCourseInfo( courses.major.course.FirstYear , "obligatory1-table-body");
-        view.updateCourseInfo( courses.major.course.SecondYear , "obligatory1-table-body");
-        view.updateCourseInfo( courses.major.course.ThirdYear , "obligatory2-table-body");
-        view.updateCourseInfo( courses.major.course.FourthYear , "obligatory2-table-body");
-        view.updateCourseInfo( courses.major.course.optional , "optional-table-body");
-        view.updateCourseInfo( courses.major.course.other , "other-table-body");
+        view.updateGraduatedCourseInfo( courses.English.course , "english-table-body");
+        view.updateGraduatedCourseInfo( courses.common.course , "common-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.FirstYear , "obligatory1-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.SecondYear , "obligatory1-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.ThirdYear , "obligatory2-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.FourthYear , "obligatory2-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.optional , "optional-table-body");
+        view.updateGraduatedCourseInfo( courses.major.course.other , "other-table-body");
     },
-    updateCleanPagContente:function(){
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.EnglishCourses , "learned-english-table-body");
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.literatureCourses , "learned-common-table-body");
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.PECourses , "learned-common-table-body");
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.commonCourses , "learned-common-table-body");
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.optionalCourses , "learned-optional-table-body");
-        view.updateCleanCourseInfo( courseCounter.classifiedCourses.otherCourses , "learned-other-table-body");
+    updateLearnedCoures:function(){
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.EnglishCourses , "learned-english-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.literatureCourses , "learned-common-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.PECourses , "learned-common-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.commonCourses , "learned-common-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.optionalCourses , "learned-optional-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.otherCourses , "learned-other-table-body");
 
         // divide obligatoryCourses to two parts
         var obligatoryCourses = courseCounter.classifiedCourses.obligatoryCourses;
         var part1Length = Math.floor((obligatoryCourses.length/2));
         var obligatoryCoursesPart1 = obligatoryCourses.slice(0,part1Length);
         var obligatoryCoursesPart2 = obligatoryCourses.slice(part1Length,obligatoryCourses.length);
-        view.updateCleanCourseInfo( obligatoryCoursesPart1 , "learned-obligatory1-table-body");
-        view.updateCleanCourseInfo( obligatoryCoursesPart2 , "learned-obligatory2-table-body");
+        view.updateLearnedCourseInfo( obligatoryCoursesPart1 , "learned-obligatory1-table-body");
+        view.updateLearnedCourseInfo( obligatoryCoursesPart2 , "learned-obligatory2-table-body");
     }
 }
 
