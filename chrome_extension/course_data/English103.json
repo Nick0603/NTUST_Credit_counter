@@ -2,11 +2,6 @@ courses.English =  {
     "name":"英文",
     "course":[
         {
-            "name":"校定英文能力會考",
-            "semester":0,
-            "credit":0
-        },
-        {
             "name":"英文字彙與閱讀(一)",
             "semester":1,
             "credit":2

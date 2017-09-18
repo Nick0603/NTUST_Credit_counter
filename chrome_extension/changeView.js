@@ -173,6 +173,7 @@ var view = {
         view.updateCourseInfo( courses.major.course.FirstYear , "obligatory1-table-body");
         view.updateCourseInfo( courses.major.course.SecondYear , "obligatory1-table-body");
         view.updateCourseInfo( courses.major.course.ThirdYear , "obligatory2-table-body");
+        view.updateCourseInfo( courses.major.course.FourthYear , "obligatory2-table-body");
         view.updateCourseInfo( courses.major.course.optional , "optional-table-body");
         view.updateCourseInfo( courses.major.course.other , "other-table-body");
     },

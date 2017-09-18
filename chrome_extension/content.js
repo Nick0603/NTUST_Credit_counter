@@ -48,8 +48,9 @@ var courseCounter = {
     classifiedCourses:null,
     mergeObligatoryCourse:function( dispersedCourse ){
         var mergeCourse = [];
-        var years = ["FirstYear","SecondYear","ThirdYear"];
+        var years = ["FirstYear","SecondYear","ThirdYear","FourthYear"];
         years.forEach(function( year ){
+            
             var courses = dispersedCourse[year];
             courses.forEach(function(course){
                 mergeCourse.push(course);
@@ -65,13 +66,6 @@ var courseCounter = {
             var course = learnedEnglishCourses[i];
             if(course.name == "英文字彙與閱讀(一)"){
                 if(course.grade == "免修"){
-                    learnedEnglishCourses.push(
-                        {
-                            name:"校定英文能力會考",
-                            grade:"通過",
-                            code:""
-                        }
-                    );
                     graduatedEnglishCourses.push(
                         {
                             name:"高階英文(會考通過)",
@@ -91,20 +85,22 @@ var courseCounter = {
                         }
                     );
                 }else{
-                    learnedEnglishCourses.push(
-                        {
-                            name:"校定英文能力會考",
-                            grade:"未通過",
-                            code:""
-                        }
-                    );
-                    graduatedEnglishCourses.splice(1,0,
+                    graduatedEnglishCourses.splice(0,0,
                         {
                             name:"英文實務(會考未通過)",
                             semester:0,
                             credit:2,
                             isSpecialCheck:true,
                             checkWord:"英文實務"
+                        }
+                    );
+                    courseCounter.classifiedCourses.otherCourses.push(
+                        {
+                            name:"英文實務(系統自動新增，因必修且可抵自由學分)",
+                            semester:0,
+                            credit:2,
+                            code:"",
+                            grade:"抵免"
                         }
                     );
                 }
@@ -429,11 +425,8 @@ var courseCounter = {
         }
         (function(coursesArray){
             coursesArray.forEach(function(courses){
-                console.log("------------");
                 for(let i=courses.length-1 ; i>=0 ; i--){
                     var course = courses[i];
-                    console.log(course.name);
-                    console.log(course.isCounted);
                     if( !course.isCounted ){
                         var courseCopy = {};
                         $.extend(courseCopy,course);
