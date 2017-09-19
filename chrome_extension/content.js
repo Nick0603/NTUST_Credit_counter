@@ -62,48 +62,57 @@ var courseCounter = {
         graduatedEnglishCourses,
         learnedEnglishCourses
     ){
-        for(let i=0 ; i<learnedEnglishCourses.length;i++){
-            var course = learnedEnglishCourses[i];
-            if(course.name == "英文字彙與閱讀(一)"){
-                if(course.grade == "免修"){
-                    graduatedEnglishCourses.push(
-                        {
-                            name:"高階英文(會考通過)",
-                            semester:0,
-                            credit:2,
-                            isSpecialCheck:true,
-                            checkCode:"FE"
-                        }
-                    );
-                    graduatedEnglishCourses.push(
-                        {
-                            name:"高階英文(會考通過)",
-                            semester:0,
-                            credit:2,
-                            isSpecialCheck:true,
-                            checkCode:"FE"
-                        }
-                    );
-                }else{
-                    graduatedEnglishCourses.splice(0,0,
-                        {
-                            name:"英文實務(會考未通過)",
-                            semester:0,
-                            credit:2,
-                            isSpecialCheck:true,
-                            checkWord:"英文實務"
-                        }
-                    );
-                    courseCounter.classifiedCourses.otherCourses.push(
-                        {
-                            name:"英文實務(系統自動新增，因必修且可抵自由學分)",
-                            semester:0,
-                            credit:2,
-                            code:"",
-                            grade:"抵免"
-                        }
-                    );
+        var courseIndex = ObjectIndexOf({name:"英文字彙與閱讀(一)"},learnedEnglishCourses,["name"]);
+        var course = learnedEnglishCourses[courseIndex];
+        if(course.grade == "免修"){
+            graduatedEnglishCourses.push(
+                {
+                    name:"高階英文(會考通過)",
+                    semester:0,
+                    credit:2,
+                    isSpecialCheck:true,
+                    checkCode:"FE"
                 }
+            );
+            graduatedEnglishCourses.push(
+                {
+                    name:"高階英文(會考通過)",
+                    semester:0,
+                    credit:2,
+                    isSpecialCheck:true,
+                    checkCode:"FE"
+                }
+            );
+        }else{
+            var courseIndex = ObjectIndexOf({name:"校定英文能力會考"},learnedEnglishCourses,["name"]);
+            var course = learnedEnglishCourses[courseIndex];
+            if(courseIndex == -1){
+                graduatedEnglishCourses.splice(0,0,
+                    {
+                        name:"英文實務(會考未通過)",
+                        semester:0,
+                        credit:2,
+                        isSpecialCheck:true,
+                        checkWord:"英文實務"
+                    }
+                );
+                courseCounter.classifiedCourses.otherCourses.push(
+                    {
+                        name:"英文實務(系統自動新增，因為新增必修且可抵自由學分)",
+                        semester:0,
+                        credit:2,
+                        code:"",
+                        grade:"抵免"
+                    }
+                );
+            }else{
+                graduatedEnglishCourses.splice(0,0,
+                    {
+                        name:"校定英文能力會考",
+                        semester:0,
+                        credit:2,
+                    }
+                );
             }
         }
     },
@@ -119,7 +128,7 @@ var courseCounter = {
                 course.isCounted = true;
             }
 
-            if( grade.indexOf("抵免") != -1 || grade.indexOf("免修") != -1 ){
+            if( grade == "抵免"|| grade == "免修" || grade == "通過"){
                 return grade;
             }else if(course.name == "尚未確認"){
                 status = "尚未確認";
@@ -260,7 +269,7 @@ var courseCounter = {
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
             // FE為高階英文   CC10為初階英文
-            if(course.code.indexOf("FE") != -1 || course.code.indexOf("CC10") != -1){
+            if(course.code.indexOf("FE") != -1 || course.code.indexOf("CC10") != -1 || course.name == "校定英文能力會考" ){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
                 EnglishCourses.push( courseCopy );
@@ -286,15 +295,35 @@ var courseCounter = {
                         coursesCopy.splice(j,1);
                     }
                 }else{
-                    if(graduatedObligatoryCourse.checkWord != undefined){
-                        if(course.name.indexOf( graduatedObligatoryCourse.checkWord) != -1 ){
+                    var checkWord = graduatedObligatoryCourse.checkWord;
+                    var checkCode = graduatedObligatoryCourse.checkCode;
+                    if(checkWord != undefined){
+                        if(typeof(checkWord) == "object" ){
+                            checkWord.forEach(function(word){
+                                if(course.name.indexOf( word ) != -1){
+                                    var courseCopy = {};
+                                    $.extend(courseCopy,coursesCopy[j]);
+                                    obligatoryCourses.push( courseCopy );
+                                    coursesCopy.splice(j,1);
+                                }
+                            });
+                        }else if(course.name.indexOf( checkWord) != -1){
                             var courseCopy = {};
                             $.extend(courseCopy,coursesCopy[j]);
                             obligatoryCourses.push( courseCopy );
                             coursesCopy.splice(j,1);
                         }
-                    }else if(graduatedObligatoryCourse.checkCode != undefined){
-                        if(course.code.indexOf( graduatedObligatoryCourse.checkCode )!= -1 ){
+                    }else if(checkCode != undefined){
+                        if(typeof(checkCode) == "object" ){
+                            checkCode.forEach(function(code){
+                                if(course.name.indexOf( code ) != -1){
+                                    var courseCopy = {};
+                                    $.extend(courseCopy,coursesCopy[j]);
+                                    obligatoryCourses.push( courseCopy );
+                                    coursesCopy.splice(j,1);
+                                }
+                            });
+                        }else if(course.name.indexOf( checkCode) != -1){
                             var courseCopy = {};
                             $.extend(courseCopy,coursesCopy[j]);
                             obligatoryCourses.push( courseCopy );
@@ -366,13 +395,34 @@ var courseCounter = {
                         course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                     }else{
                         if(course.checkWord != undefined){
-                            var indexes = ObjectIndexOfAll({name:course.checkWord},learnedCourses,["name"]);
-                            var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                            course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                            if(typeof(course.checkWord) == "string"){
+                                var indexes = ObjectIndexOfAll({name:course.checkWord},learnedCourses,["name"]);
+                                var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
+                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                            }else{
+                                console.log(course.checkWord);
+                                for(let j=0 ; j<course.checkWord.length ; j++){
+                                    var checkWord = course.checkWord[j];
+                                    var indexes = ObjectIndexOfAll({name:checkWord},learnedCourses,["name"]);
+                                    var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
+                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                    if(course.status == "通過")break;
+                                }
+                            }
                         }else if(course.checkCode != undefined){
-                            var indexes = ObjectIndexOfAll({code:course.checkCode},learnedCourses,["code"]);
-                            var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                            course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                            if(typeof(course.checkCode) == "string"){
+                                var indexes = ObjectIndexOfAll({code:course.checkCode},learnedCourses,["code"]);
+                                var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
+                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                            }else{
+                                for(let j=0 ; j<course.checkCode.length ; j++){
+                                    var checkCode = course.checkCode[j];
+                                    var indexes = ObjectIndexOfAll({code:checkCode},learnedCourses,["code"]);
+                                    var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
+                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                    if(course.status == "通過")break;
+                                }
+                            }
                         }else{
                             var CreditCounter = courseCounter.getCorusesPassCredit(learnedCourses,course.credit);
                             if(optionalCreditCounter > course.credit){
@@ -454,8 +504,6 @@ var courseCounter = {
     }
 }
 
-
-
 courseCounter.majorCode = courses.major.code;
 courseCounter.EnglishCourses = courses.English.course;
 courseCounter.obligatoryCourses = courseCounter.mergeObligatoryCourse(courses.major.course);
@@ -470,5 +518,3 @@ view.addGraduatedCouresPages();
 view.updateGraduationCredit();
 view.addLearnedCouresPages();
 view.updateLearnedCoures();
-
-

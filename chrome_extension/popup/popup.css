@@ -1,0 +1,17 @@
+
+.container{
+    width:40em;
+    height:auto;
+    margin:1em;
+}
+
+.row,button{
+    margin-top:1em;
+    text-align: center;
+    font-size:2em;
+    font-family: 微軟正黑體;
+}
+
+.row h2{
+    font-size:2em;
+}

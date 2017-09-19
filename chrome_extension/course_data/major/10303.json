@@ -161,14 +161,14 @@ courses.major =  {
                 "semester":0,
                 "credit":1,
                 "isSpecialCheck":true,
-                "checkWord":"實習"
+                "checkWord":"實習",
             },
             {
                 "name":"實習課程",
                 "semester":0,
                 "credit":1,
                 "isSpecialCheck":true,
-                "checkWord":"實習"
+                "checkWord":["實習","材料試驗"]
             }
         ],
         "optional":[

@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Popup page</title>
+        <link rel="stylesheet" href="popup.css">
+        <link rel="stylesheet" href="../bootstrap/js/bootstrap.min.js">
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-12">
+                            <h2>畢業門檻設定</h2>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <span>英文：</span>
+                        <select name="English"> <!--Supplement an id here instead of using 'name'-->
+                            <option value="English103" selected>103英文</option> 
+                        </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <span>通識：</span>
+                        <select name="common"> <!--Supplement an id here instead of using 'name'-->
+                            <option value="common103" selected>103通識</option> 
+                        </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <span>主修：</span>
+                        <select name="major"> <!--Supplement an id here instead of   using 'name'-->
+                            <option value="10301" >10301工業管理系</option> 
+                            <option value="10303" selected >10303機械工程系</option> 
+                            <option value="10310" >10310商業設計系</option>
+                        </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="submit">送出</button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="popup.js"></script>
+    </body>
+</html>
