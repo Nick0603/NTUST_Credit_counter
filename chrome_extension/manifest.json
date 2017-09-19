@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "NTUST credit counter",
-  "version": "1.5",
+  "version": "1.3",
   "browser_action": {
     "default_icon": "images/icon32.png",
     "default_title": "Click here!",
@@ -20,8 +20,4 @@
     "256":"images/icon256.png",
     "512":"images/icon512.png"
   }
-  // ,
-  // "background":{
-  //   "scripts": ["background.js"]
-  // }
 }
