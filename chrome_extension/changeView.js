@@ -145,6 +145,7 @@ var view = {
         )
     },
     updateGraduatedCourseInfo:function( appointCourses , tableBodyClassName){
+        if(appointCourses == undefined)return;
         for(var i=0 ; i<appointCourses.length ; i++){
             var course = appointCourses[i];
             var newData = 
@@ -169,6 +170,7 @@ var view = {
         }
     },
     updateLearnedCourseInfo:function( appointCourses , tableBodyClassName){
+        if(appointCourses == undefined)return;
         for(var i=0 ; i<appointCourses.length ; i++){
             var course = appointCourses[i];
             $("." + tableBodyClassName)

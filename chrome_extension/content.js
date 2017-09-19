@@ -363,7 +363,7 @@ var courseCounter = {
             courseCounter.EnglishCourses,
             courseCounter.classifiedCourses.EnglishCourses,
         );
-          
+        
         var checkCoursesArray = [
             // check English
             [   
@@ -383,9 +383,10 @@ var courseCounter = {
                 courseCounter.classifiedCourses.optionalCourses,
                 courseCounter.classifiedCourses.otherCourses
             ]
-
         ]
+
         checkCoursesArray.forEach(function(checkCourses){
+            if(checkCourses.indexOf(undefined) != -1)return;
             (function checkCourse(graduationCourses,learnedCourses,overToCourses){
                 for(let i=0 ;i<graduationCourses.length;i++){
                     var course = graduationCourses[i];
@@ -400,7 +401,6 @@ var courseCounter = {
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                 course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                             }else{
-                                console.log(course.checkWord);
                                 for(let j=0 ; j<course.checkWord.length ; j++){
                                     var checkWord = course.checkWord[j];
                                     var indexes = ObjectIndexOfAll({name:checkWord},learnedCourses,["name"]);

@@ -7,22 +7,44 @@ function addLibrary(){
   chrome.tabs.insertCSS(null, {file: "bootstrap/css/bootstrap-theme.min.css"});
 }
 
-function addCourseData(common,English,major){
-  chrome.tabs.executeScript(null, {code: " var courses = {};"});
-  chrome.tabs.executeScript(null, {file: "course_data/" + common + ".json"});
-  chrome.tabs.executeScript(null, {file: "course_data/" + English + ".json"});
-  chrome.tabs.executeScript(null, {file: "course_data/major/" + major + ".json"});
+
+var checkDownLoadArray = [];
+function downLoadData(saveKey,url){
+  $.ajax({
+    url,url,
+    type:"GET",
+    dataType:"text",
+    success:function(data){
+
+      chrome.tabs.executeScript(null, {code: " courses['" + saveKey +"'] = " + data +";"});
+      checkDownLoadArray.push( jQuery.parseJSON(data) );
+      
+      console.log(data);
+      console.log(checkDownLoadArray.length);
+
+      if(checkDownLoadArray.length == 3){
+        chrome.tabs.executeScript(null, {file: "changeView.js"});
+        chrome.tabs.insertCSS(null, {file: "content.css"});
+        chrome.tabs.executeScript(null, {file: "content.js"});  
+      }
+    },
+    error:function(e){
+      console.warn(e);
+      alert("Error!!");
+    }
+  })
 }
+
 
 function start() {
   addLibrary();
   var English = document.querySelector("select[name='English']").value;
   var common = document.querySelector("select[name='common']").value;
   var major = document.querySelector("select[name='major']").value;
-  addCourseData(English,common,major);
-  chrome.tabs.executeScript(null, {file: "changeView.js"});
-  chrome.tabs.insertCSS(null, {file: "content.css"});
-  chrome.tabs.executeScript(null, {file: "content.js"});   
+  chrome.tabs.executeScript(null, {code: " var courses = [];"});
+  downLoadData("English","https://nick0603.github.io/NTUST_Credit_counter_CourseData/" + English  + ".json");
+  downLoadData("common","https://nick0603.github.io/NTUST_Credit_counter_CourseData/"  +  common + ".json");
+  downLoadData("major","https://nick0603.github.io/NTUST_Credit_counter_CourseData/major/" + major + ".json");
 }
 
 
