@@ -116,7 +116,7 @@ var courseCounter = {
             }
         }
     },
-    getCoursePassStatus:function(courses){
+    getCoursePassStatus:function(courses,checkCredit){
         // 可能有重修，需多重判斷多個重複課程
         var status = "尚未修課";
         for(let i=0 ;i<courses.length ;i++){
@@ -127,10 +127,13 @@ var courseCounter = {
             }else{
                 course.isCounted = true;
             }
-
             if( grade == "抵免"|| grade == "免修" || grade == "通過"){
+                course.isCounted = true;
                 return grade;
-            }else if(course.name == "尚未確認"){
+            }else if( checkCredit !=undefined && course.credit != checkCredit ){
+                continue;
+            }
+            if(course.name == "尚未確認"){
                 status = "尚未確認";
             }else if(grade.charCodeAt(0) <= "C".charCodeAt(0)){
                 return "通過";
@@ -229,7 +232,6 @@ var courseCounter = {
         var commonAllCourses = [];
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
-
             // find Common Course
             if(course.category != null ||
                 course.code[2] == "G" ||
@@ -240,7 +242,9 @@ var courseCounter = {
                 commonAllCourses.push( courseCopy );
                 coursesCopy.splice(i,1);
             }
-
+        }
+        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
+            var course = coursesCopy[i];
             // find PE Courses
             if(course.name.indexOf("體育") != -1){
                 var courseCopy = {};
@@ -248,7 +252,9 @@ var courseCounter = {
                 commonAllCourses.push( courseCopy );
                 coursesCopy.splice(i,1);
             }
-
+        }
+        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
+            var course = coursesCopy[i];
             // find literatureCourses
             if(course.code.indexOf("CC12") != -1){
                 var courseCopy = {};
@@ -257,7 +263,6 @@ var courseCounter = {
                 coursesCopy.splice(i,1);
             }
         }
-
 
         // find EnglishCourses
         var EnglishCourses = [];
@@ -390,35 +395,40 @@ var courseCounter = {
                 for(let i=0 ;i<graduationCourses.length;i++){
                     var course = graduationCourses[i];
                     if( course.isSpecialCheck == undefined){
-                        var indexes = ObjectIndexOfAll(course,learnedCourses,["name","credit"],true);
+                        var indexes = ObjectIndexOfAll(course,learnedCourses,["name"],true);
                         var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                        course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                        var checkCredit = course.credit;
+                        course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                     }else{
                         if(course.checkWord != undefined){
                             if(typeof(course.checkWord) == "string"){
-                                var indexes = ObjectIndexOfAll({name:course.checkWord,credit:course.credit},learnedCourses,["name","credit"]);
+                                var indexes = ObjectIndexOfAll({name:course.checkWord,credit:course.credit},learnedCourses,["name"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                var checkCredit = course.credit;
+                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                             }else{
                                 for(let j=0 ; j<course.checkWord.length ; j++){
                                     var checkWord = course.checkWord[j];
-                                    var indexes = ObjectIndexOfAll({name:checkWord,credit:course.credit},learnedCourses,["name","credit"]);
+                                    var indexes = ObjectIndexOfAll({name:checkWord,credit:course.credit},learnedCourses,["name"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                    var checkCredit = course.crefit;
+                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                                     if(course.status == "通過")break;
                                 }
                             }
                         }else if(course.checkCode != undefined){
                             if(typeof(course.checkCode) == "string"){
-                                var indexes = ObjectIndexOfAll({code:course.checkCode,credit:course.credit},learnedCourses,["code","credit"]);
+                                var indexes = ObjectIndexOfAll({code:course.checkCode,credit:course.credit},learnedCourses,["code"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                var checkCredit = course.crefit;
+                                course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                             }else{
                                 for(let j=0 ; j<course.checkCode.length ; j++){
                                     var checkCode = course.checkCode[j];
-                                    var indexes = ObjectIndexOfAll({code:checkCode,credit:course.credit},learnedCourses,["code","credit"]);
+                                    var indexes = ObjectIndexOfAll({code:checkCode,credit:course.credit},learnedCourses,["code"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
-                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
+                                    var checkCredit = course.crefit;
+                                    course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                                     if(course.status == "通過")break;
                                 }
                             }
@@ -426,6 +436,14 @@ var courseCounter = {
                             var CreditCounter = courseCounter.getCorusesPassCredit(learnedCourses,course.credit);
                             if(CreditCounter >= course.credit){
                                 course.status = "通過(" + CreditCounter + ")";
+                                var overCredit = CreditCounter - course.credit;
+                                if(overCredit > 0){
+                                    overToCourses.push( {
+                                        name: course.name + "(超出學分)",
+                                        credit : overCredit,
+                                        grade : "抵免"
+                                    } );
+                                }
                             }else{
                                 course.status = "未通過(" + CreditCounter + ")";
                             }
