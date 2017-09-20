@@ -402,14 +402,14 @@ var courseCounter = {
                     }else{
                         if(course.checkWord != undefined){
                             if(typeof(course.checkWord) == "string"){
-                                var indexes = ObjectIndexOfAll({name:course.checkWord,credit:course.credit},learnedCourses,["name"]);
+                                var indexes = ObjectIndexOfAll({name:course.checkWord},learnedCourses,["name"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                 var checkCredit = course.credit;
                                 course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                             }else{
                                 for(let j=0 ; j<course.checkWord.length ; j++){
                                     var checkWord = course.checkWord[j];
-                                    var indexes = ObjectIndexOfAll({name:checkWord,credit:course.credit},learnedCourses,["name"]);
+                                    var indexes = ObjectIndexOfAll({name:checkWord},learnedCourses,["name"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                     var checkCredit = course.crefit;
                                     course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
@@ -418,20 +418,25 @@ var courseCounter = {
                             }
                         }else if(course.checkCode != undefined){
                             if(typeof(course.checkCode) == "string"){
-                                var indexes = ObjectIndexOfAll({code:course.checkCode,credit:course.credit},learnedCourses,["code"]);
+                                var indexes = ObjectIndexOfAll({code:course.checkCode},learnedCourses,["code"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                 var checkCredit = course.crefit;
                                 course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                             }else{
                                 for(let j=0 ; j<course.checkCode.length ; j++){
                                     var checkCode = course.checkCode[j];
-                                    var indexes = ObjectIndexOfAll({code:checkCode,credit:course.credit},learnedCourses,["code"]);
+                                    var indexes = ObjectIndexOfAll({code:checkCode},learnedCourses,["code"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                     var checkCredit = course.crefit;
                                     course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                                     if(course.status == "通過")break;
                                 }
                             }
+                        }else if(course.checkCategory != undefined){
+                            var indexes = ObjectIndexOfAll({category:course.checkCategory},learnedCourses,["category"],true);
+                            var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
+                            var checkCredit = course.crefit;    
+                            course.status = courseCounter.getCoursePassStatus(findLearnedCourses,checkCredit);
                         }else{
                             var CreditCounter = courseCounter.getCorusesPassCredit(learnedCourses,course.credit);
                             if(CreditCounter >= course.credit){
