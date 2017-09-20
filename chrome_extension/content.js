@@ -424,8 +424,10 @@ var courseCounter = {
                                 }
                             }
                         }else{
+
                             var CreditCounter = courseCounter.getCorusesPassCredit(learnedCourses,course.credit);
-                            if(optionalCreditCounter > course.credit){
+ 
+                            if(CreditCounter >= course.credit){
                                 course.status = "通過(" + CreditCounter + ")";
                             }else{
                                 course.status = "未通過(" + CreditCounter + ")";
@@ -494,7 +496,7 @@ var courseCounter = {
             var course = graduationCourses[i];
             if(course.name ==  "自由選修課程" ){
                 var optionalCreditCounter = courseCounter.getCorusesPassCredit(otherCourses);
-                if(optionalCreditCounter > course.credit){
+                if(optionalCreditCounter >= course.credit){
                     course.status = "通過(" + optionalCreditCounter + ")";
                 }else{
                     course.status = "未通過(" + optionalCreditCounter + ")";

@@ -18,9 +18,6 @@ function downLoadData(saveKey,url){
 
       chrome.tabs.executeScript(null, {code: " courses['" + saveKey +"'] = " + data +";"});
       checkDownLoadArray.push( jQuery.parseJSON(data) );
-      
-      console.log(data);
-      console.log(checkDownLoadArray.length);
 
       if(checkDownLoadArray.length == 3){
         chrome.tabs.executeScript(null, {file: "changeView.js"});
