@@ -202,9 +202,7 @@ var view = {
     },
     updateLearnedCoures:function(){
         view.updateLearnedCourseInfo( courseCounter.classifiedCourses.EnglishCourses , "learned-english-table-body");
-        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.literatureCourses , "learned-common-table-body");
-        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.PECourses , "learned-common-table-body");
-        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.commonCourses , "learned-common-table-body");
+        view.updateLearnedCourseInfo( courseCounter.classifiedCourses.commonAllCourses , "learned-common-table-body");
         view.updateLearnedCourseInfo( courseCounter.classifiedCourses.optionalCourses , "learned-optional-table-body");
         view.updateLearnedCourseInfo( courseCounter.classifiedCourses.otherCourses , "learned-other-table-body");
 

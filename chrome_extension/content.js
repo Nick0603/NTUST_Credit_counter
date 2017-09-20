@@ -15,7 +15,7 @@ function ObjectIndexOf(obj,objArray,checkKeys,startIndex,isNeedSame){
         
         checkKeys.forEach(function(key){
             if( typeof(obj[key]) == "string" &&　!isNeedSame ){
-                if(checkObj[key].indexOf(obj[key]) != -1 ){
+                if(checkObj[key].indexOf(obj[key]) != -1 ){ 
                     successCheckCounter++;
                 }
             }else{
@@ -225,44 +225,39 @@ var courseCounter = {
     classifyParserCourse:function(courses){
         var coursesCopy = copyObjectedArray(courses);
 
-        // find Common Course
-        var commonCourses = [];
+        
+        var commonAllCourses = [];
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
+
+            // find Common Course
             if(course.category != null ||
                 course.code[2] == "G" ||
                 course.code.indexOf("SA") != -1
             ){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
-                commonCourses.push( courseCopy );
+                commonAllCourses.push( courseCopy );
+                coursesCopy.splice(i,1);
+            }
+
+            // find PE Courses
+            if(course.name.indexOf("體育") != -1){
+                var courseCopy = {};
+                $.extend(courseCopy,coursesCopy[i]);
+                commonAllCourses.push( courseCopy );
+                coursesCopy.splice(i,1);
+            }
+
+            // find literatureCourses
+            if(course.code.indexOf("CC12") != -1){
+                var courseCopy = {};
+                $.extend(courseCopy,coursesCopy[i]);
+                commonAllCourses.push( courseCopy );
                 coursesCopy.splice(i,1);
             }
         }
 
-        // find PE Courses
-        var PECourses = [];
-        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
-            var course = coursesCopy[i];
-            if(course.name.indexOf("體育") != -1){
-                var courseCopy = {};
-                $.extend(courseCopy,coursesCopy[i]);
-                PECourses.push( courseCopy );
-                coursesCopy.splice(i,1);
-            }
-        }
-        
-        // find literatureCourses
-        var literatureCourses = [];
-        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
-            var course = coursesCopy[i];
-            if(course.code.indexOf("CC12") != -1){
-                var courseCopy = {};
-                $.extend(courseCopy,coursesCopy[i]);
-                literatureCourses.push( courseCopy );
-                coursesCopy.splice(i,1);
-            }
-        }
 
         // find EnglishCourses
         var EnglishCourses = [];
@@ -347,9 +342,7 @@ var courseCounter = {
         // otherCourse
         var otherCourses = coursesCopy;
         return {
-            "commonCourses":commonCourses,
-            "PECourses":PECourses,
-            "literatureCourses":literatureCourses,
+            "commonAllCourses":commonAllCourses,
             "EnglishCourses":EnglishCourses,
             "obligatoryCourses":obligatoryCourses,
             "optionalCourses":[],
@@ -382,6 +375,12 @@ var courseCounter = {
                 courseCounter.optionalCourses,
                 courseCounter.classifiedCourses.optionalCourses,
                 courseCounter.classifiedCourses.otherCourses
+            ],
+            // check common
+            [
+                courses.common.course,
+                courseCounter.classifiedCourses.commonAllCourses,
+                courseCounter.classifiedCourses.otherCourses
             ]
         ]
 
@@ -391,19 +390,19 @@ var courseCounter = {
                 for(let i=0 ;i<graduationCourses.length;i++){
                     var course = graduationCourses[i];
                     if( course.isSpecialCheck == undefined){
-                        var indexes = ObjectIndexOfAll(course,learnedCourses,["name"],true);
+                        var indexes = ObjectIndexOfAll(course,learnedCourses,["name","credit"],true);
                         var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                         course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                     }else{
                         if(course.checkWord != undefined){
                             if(typeof(course.checkWord) == "string"){
-                                var indexes = ObjectIndexOfAll({name:course.checkWord},learnedCourses,["name"]);
+                                var indexes = ObjectIndexOfAll({name:course.checkWord,credit:course.credit},learnedCourses,["name","credit"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                 course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                             }else{
                                 for(let j=0 ; j<course.checkWord.length ; j++){
                                     var checkWord = course.checkWord[j];
-                                    var indexes = ObjectIndexOfAll({name:checkWord},learnedCourses,["name"]);
+                                    var indexes = ObjectIndexOfAll({name:checkWord,credit:course.credit},learnedCourses,["name","credit"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                     course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                                     if(course.status == "通過")break;
@@ -411,22 +410,20 @@ var courseCounter = {
                             }
                         }else if(course.checkCode != undefined){
                             if(typeof(course.checkCode) == "string"){
-                                var indexes = ObjectIndexOfAll({code:course.checkCode},learnedCourses,["code"]);
+                                var indexes = ObjectIndexOfAll({code:course.checkCode,credit:course.credit},learnedCourses,["code","credit"]);
                                 var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                 course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                             }else{
                                 for(let j=0 ; j<course.checkCode.length ; j++){
                                     var checkCode = course.checkCode[j];
-                                    var indexes = ObjectIndexOfAll({code:checkCode},learnedCourses,["code"]);
+                                    var indexes = ObjectIndexOfAll({code:checkCode,credit:course.credit},learnedCourses,["code","credit"]);
                                     var findLearnedCourses = courseCounter.getCoursesByIndexes(learnedCourses,indexes);
                                     course.status = courseCounter.getCoursePassStatus(findLearnedCourses);
                                     if(course.status == "通過")break;
                                 }
                             }
                         }else{
-
                             var CreditCounter = courseCounter.getCorusesPassCredit(learnedCourses,course.credit);
- 
                             if(CreditCounter >= course.credit){
                                 course.status = "通過(" + CreditCounter + ")";
                             }else{
@@ -452,42 +449,6 @@ var courseCounter = {
                 checkCourses[2],
             )
         })
-
-        // check common overed Courses => otherCourses
-        var graduationCourses = courses.common.course;
-        var literatureCourses = courseCounter.classifiedCourses.literatureCourses;
-        var PECourses = courseCounter.classifiedCourses.PECourses;
-        var commonCourses = courseCounter.classifiedCourses.commonCourses;
-        var otherCourses = courseCounter.classifiedCourses.otherCourses;
-        for(let i=0 ;i<graduationCourses.length;i++){
-            var course = graduationCourses[i];
-            if(course.name =="文學領域"){
-                course.status = courseCounter.getCoursePassStatus(literatureCourses);
-            }else if(course.name =="體育"){
-                course.status = courseCounter.getCoursePassStatus(PECourses);
-            }else if(course.name =="通識"){
-                // 通識統計 16學分 不分向度
-                var commonCreditCounter = courseCounter.getCorusesPassCredit(commonCourses,course.credit);
-                if(commonCreditCounter >= course.credit){
-                    course.status = "通過(" + commonCreditCounter + ")";
-                }else{
-                    course.status = "未通過(" + commonCreditCounter + ")";
-                }
-            }
-        }
-        (function(coursesArray){
-            coursesArray.forEach(function(courses){
-                for(let i=courses.length-1 ; i>=0 ; i--){
-                    var course = courses[i];
-                    if( !course.isCounted ){
-                        var courseCopy = {};
-                        $.extend(courseCopy,course);
-                        courses.splice(i,1);
-                        courseCounter.classifiedCourses.otherCourses.push( courseCopy );
-                    }
-                }
-            })
-        })([literatureCourses,PECourses,commonCourses]);
 
         // check other
         var graduationCourses = courseCounter.otherCourses;
