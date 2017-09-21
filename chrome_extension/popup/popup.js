@@ -41,6 +41,10 @@ function start() {
   downLoadData("English","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/" + English  + ".json");
   downLoadData("common","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/"  +  common + ".json");
   downLoadData("major","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/major/" + major + ".json");
+
+  // downLoadData("English","https://nick0603.github.io/NTUST_Credit_counter_CourseData/" + English  + ".json");
+  // downLoadData("common","https://nick0603.github.io/NTUST_Credit_counter_CourseData/"  +  common + ".json");
+  // downLoadData("major","https://nick0603.github.io/NTUST_Credit_counter_CourseData/major/" + major + ".json");
 }
 
 
