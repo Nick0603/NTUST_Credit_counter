@@ -227,25 +227,10 @@ var courseCounter = {
     },
     classifyParserCourse:function(courses){
         var coursesCopy = copyObjectedArray(courses);
-
-        
         var commonAllCourses = [];
+        // find PE Courses
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
-            // find Common Course
-            if(course.category != null ||
-                course.code[2] == "G" ||
-                course.code.indexOf("SA") != -1
-            ){
-                var courseCopy = {};
-                $.extend(courseCopy,coursesCopy[i]);
-                commonAllCourses.push( courseCopy );
-                coursesCopy.splice(i,1);
-            }
-        }
-        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
-            var course = coursesCopy[i];
-            // find PE Courses
             if(course.name.indexOf("體育") != -1){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
@@ -253,9 +238,9 @@ var courseCounter = {
                 coursesCopy.splice(i,1);
             }
         }
+        // find literatureCourses
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
             var course = coursesCopy[i];
-            // find literatureCourses
             if(course.code.indexOf("CC12") != -1){
                 var courseCopy = {};
                 $.extend(courseCopy,coursesCopy[i]);
@@ -263,7 +248,6 @@ var courseCounter = {
                 coursesCopy.splice(i,1);
             }
         }
-
         // find EnglishCourses
         var EnglishCourses = [];
         for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
@@ -276,7 +260,6 @@ var courseCounter = {
                 coursesCopy.splice(i,1);
             }
         }
-
 
         // find obligatoryCourses  &&  optionalCourses    putIn obligatoryCourses first
         var obligatoryCourses = [];
@@ -331,6 +314,20 @@ var courseCounter = {
                         }
                     }
                 }
+            }
+        }
+
+        for(let i=coursesCopy.length-1 ; i>= 0 ; i--){
+            var course = coursesCopy[i];
+            // find Common Course
+            if(course.category != null ||
+                course.code[2] == "G" ||
+                course.code.indexOf("SA") != -1
+            ){
+                var courseCopy = {};
+                $.extend(courseCopy,coursesCopy[i]);
+                commonAllCourses.push( courseCopy );
+                coursesCopy.splice(i,1);
             }
         }
 
@@ -478,13 +475,11 @@ var courseCounter = {
         var otherCourses = courseCounter.classifiedCourses.otherCourses;
         for(let i=0 ;i<graduationCourses.length;i++){
             var course = graduationCourses[i];
-            if(course.name ==  "自由選修課程" ){
-                var optionalCreditCounter = courseCounter.getCorusesPassCredit(otherCourses);
-                if(optionalCreditCounter >= course.credit){
-                    course.status = "通過(" + optionalCreditCounter + ")";
-                }else{
-                    course.status = "未通過(" + optionalCreditCounter + ")";
-                }
+            var optionalCreditCounter = courseCounter.getCorusesPassCredit(otherCourses);
+            if(optionalCreditCounter >= course.credit){
+                course.status = "通過(" + optionalCreditCounter + ")";
+            }else{
+                course.status = "未通過(" + optionalCreditCounter + ")";
             }
         }
     }
