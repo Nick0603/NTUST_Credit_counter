@@ -1,52 +1,100 @@
-// var app = chrome.runtime.getBackgroundPage();
 
-function addLibrary(){
-  chrome.tabs.executeScript(null, {file: "jquery/jquery-2.1.4.js"});
-  chrome.tabs.executeScript(null, {file: "bootstrap/js/bootstrap.min.js"});
-  chrome.tabs.insertCSS(null, {file: "bootstrap/css/bootstrap.min.css"});
-  chrome.tabs.insertCSS(null, {file: "bootstrap/css/bootstrap-theme.min.css"});
+const courseDataUrl = "https://nick0603.github.io/NTUST_Credit_counter_CourseTestData/";
+const mainFileUrl = "https://nick0603.github.io/NTUST_Credit_counter_main/";
+
+function makeCourseDataFunc(saveKey,url){
+  return function(callback){
+    $.ajax({
+      url,url,
+      type:"GET",
+      dataType:"text",
+      success:function(data){
+        chrome.tabs.executeScript(null, {code: " courses['" + saveKey +"'] = " + data +";"});
+        callback(data);
+      },
+      error:function(e){
+        console.warn(e);
+        alert("Error: Can't include courseData!");
+      }
+    })
+  }
 }
 
-
-var checkDownLoadArray = [];
-function downLoadData(saveKey,url){
+function getFile(fileName,callback){
   $.ajax({
-    url,url,
+    url: mainFileUrl + fileName ,
     type:"GET",
     dataType:"text",
-    success:function(data){
-
-      chrome.tabs.executeScript(null, {code: " courses['" + saveKey +"'] = " + data +";"});
-      checkDownLoadArray.push( jQuery.parseJSON(data) );
-      if(checkDownLoadArray.length == 3){
-        chrome.tabs.executeScript(null, {file: "changeView.js"});
-        chrome.tabs.insertCSS(null, {file: "content.css"});
-        chrome.tabs.executeScript(null, {file: "content.js"});  
-      }
+    success:function(code){
+      callback(code);
     },
     error:function(e){
       console.warn(e);
-      alert("Error!!");
+      alert("Error: Can't include mainFile!");
     }
   })
 }
 
-
 function start() {
-  addLibrary();
-  var English = document.querySelector("select[name='English']").value;
-  var common = document.querySelector("select[name='common']").value;
-  var major = document.querySelector("select[name='major']").value;
   chrome.tabs.executeScript(null, {code: " var courses = [];"});
-  downLoadData("English","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/" + English  + ".json");
-  downLoadData("common","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/"  +  common + ".json");
-  downLoadData("major","C:/Users/Nick.DESKTOP-JTUE9U6/Desktop/course_data/major/" + major + ".json");
+  chrome.tabs.executeScript(null, {file: "jquery/jquery-2.1.4.js"});
+  chrome.tabs.executeScript(null, {file: "bootstrap/js/bootstrap.min.js"});
+  chrome.tabs.insertCSS(null, {file: "bootstrap/css/bootstrap.min.css"});
+  chrome.tabs.insertCSS(null, {file: "bootstrap/css/bootstrap-theme.min.css"});
+  var English = $("select[name='English']").val();
+  var common = $("select[name='common']").val();
+  var major = $("select[name='major']").val();
+  var getEnglishData = makeCourseDataFunc("English",courseDataUrl + English  + ".json");
+  var getCommonData = makeCourseDataFunc("common",courseDataUrl  +  common + ".json");
+  var getMajorData = makeCourseDataFunc("major",courseDataUrl + "/major/" + major + ".json");
+  getEnglishData(function(){
+    getCommonData(function(){
+      getMajorData(function(){
+        getFile("changeView.js",function(gotCode){
+          chrome.tabs.executeScript(null, {code:gotCode});
+          getFile("content.css",function(gotCode){
+            chrome.tabs.insertCSS(null, {code:gotCode});
+            getFile("content.js",function(gotCode){
+              chrome.tabs.executeScript(null,{code:gotCode});
+            })
+          })
+        })
+      })
+    })
+  })
+}
 
-  // downLoadData("English","https://nick0603.github.io/NTUST_Credit_counter_CourseData/" + English  + ".json");
-  // downLoadData("common","https://nick0603.github.io/NTUST_Credit_counter_CourseData/"  +  common + ".json");
-  // downLoadData("major","https://nick0603.github.io/NTUST_Credit_counter_CourseData/major/" + major + ".json");
+function getLocalVersion(callback){
+  $.get(chrome.extension.getURL('manifest.json'), function(info){
+    callback(info);
+  },'json');
+}
+
+function getLatestVersion(localInfo,callback){
+  $.get("https://nick0603.github.io/NTUST_Credit_counter_CourseTestData/manifest.json", function(info){
+    var localVersion = localInfo.version;
+    var latestVersion = info.version;
+    callback(localVersion,latestVersion)
+  },'json');
+}
+
+function checkVersion(localVersion,latestVersion){
+  if( localVersion == latestVersion){
+    $("#submit").click(start);
+  }else{
+    chrome.tabs.executeScript(null, {file: "sweetalert2/sweetalert2.min.js"});
+    chrome.tabs.insertCSS(null, {file: "sweetalert2/sweetalert2.min.css"});
+    getFile("update.js",function(gotCode){
+      chrome.tabs.executeScript(null, {code: gotCode});
+    })
+  }
 }
 
 
-  document.getElementById('submit').addEventListener('click', start);
+
+getLocalVersion(function(info){
+  getLatestVersion(info,function(localVersion,latestVersion){
+    checkVersion(localVersion,latestVersion)
+  })
+})
 
